@@ -10,3 +10,16 @@ export const getPosts = () => {
     });
   };
 };
+
+export const getPostDetail = (postId) => {
+  return function (dispatch) {
+    axios
+      .get("https://eindwerk.jnnck.be/api/posts/" + postId)
+      .then((response) => {
+        dispatch({
+          type: "LOAD_DETAIL",
+          payload: response.data,
+        });
+      });
+  };
+};

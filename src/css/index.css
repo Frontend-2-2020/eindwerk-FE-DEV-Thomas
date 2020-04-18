@@ -1,6 +1,5 @@
 ul {
   padding: 0px;
-
 }
 
 .postLi {
@@ -11,6 +10,10 @@ ul {
   justify-content: space-between;
   margin-top: 16px;
   border: green 1px solid;
+}
+
+.postLi:hover {
+  cursor: pointer;
 }
 
 .postLi-timestamp {
@@ -38,5 +41,4 @@ ul {
   justify-content: space-evenly;
   align-items: flex-start;
   color: green;
-
 }

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { getPosts } from "../redux/actions/postActions";
 import { connect } from "react-redux";
-import Post from "./Post";
+import Post from "../components/Post";
 
-class PostOverview extends Component {
+class Home extends Component {
   componentDidMount() {
     this.props.getPosts();
   }
@@ -16,7 +16,7 @@ class PostOverview extends Component {
         <h2>Most recent posts</h2>
         <ul>
           {posts.map((post) => (
-            <Post post={post} />
+            <Post post={post} key={post.id} />
           ))}
         </ul>
       </div>
@@ -32,6 +32,6 @@ const mapDispatchToProps = (dispatch) => ({
   getPosts: () => dispatch(getPosts()),
 });
 
-PostOverview.propTypes = {};
+Home.propTypes = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostOverview);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

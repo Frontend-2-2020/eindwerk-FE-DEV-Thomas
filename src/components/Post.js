@@ -5,9 +5,11 @@ import moment from "moment";
 class Post extends Component {
   render() {
     const { post } = this.props;
-    moment.locale("nl-be");
     return (
-      <li className="postLi">
+      <li
+        className="postLi"
+        onClick={() => (window.location.href = "/" + post.id)}
+      >
         <div className="postLi-timestamp">
           <p>{moment(post.created_at).format("LL")}</p>
         </div>
@@ -17,7 +19,7 @@ class Post extends Component {
         </div>
         <div className="postLi-comments">
           <span>{post.comments_count}</span>
-          <span>Comments</span>
+          <span>comments</span>
         </div>
       </li>
     );
