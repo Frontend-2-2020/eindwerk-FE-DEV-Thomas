@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 class App extends Component {
   render() {
@@ -12,6 +15,8 @@ class App extends Component {
         <Navbar />
         <Router>
           <Switch>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/register" component={Register}></Route>
             <Route path="/:id" component={PostDetail}></Route>
             <Route path={["/", "/:page"]} exact component={Home}></Route>
           </Switch>

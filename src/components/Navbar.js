@@ -1,26 +1,30 @@
 import React, { Component } from "react";
-import Login from "./Login";
 
 class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a className="navbar-brand" href="#">
-          Navbar
-        </a>
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <a className="navbar-brand nav-link" href="/">
               Home <span className="sr-only">(current)</span>
             </a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Link
-            </a>
-          </li>
         </ul>
-        <Login />
+        <div>
+          <a
+            className="btn btn-outline-success my-2 my-sm-0 ml-2"
+            href="/login"
+          >
+            Login
+          </a>
+          <a
+            className="btn btn-outline-success my-2 my-sm-0 ml-2"
+            href="/register"
+          >
+            Register
+          </a>
+        </div>
       </nav>
     );
   }

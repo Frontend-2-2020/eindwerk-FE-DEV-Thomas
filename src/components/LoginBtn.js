@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-class Login extends Component {
+class LoginBtn extends Component {
   render() {
     const { isLoggedIn, logout, login } = this.props;
 
@@ -37,7 +37,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+LoginBtn.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
@@ -56,4 +56,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginBtn);
