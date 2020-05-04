@@ -5,7 +5,7 @@ import { SwatchesPicker } from "react-color";
 
 class RegisterForm extends Component {
   componentDidMount() {
-    API.get("api/users/44").then((response) => {
+    API.get("api/users/54").then((response) => {
       console.log(response.data);
     });
   }
@@ -14,14 +14,9 @@ class RegisterForm extends Component {
     color: "#00000",
   };
 
-  handleColorChange = (color) => {
-    // Het kleur component werkt door de huidig geselecteerde kleur in de state op te slaan, dit is heel handig
-    // om daar bij het versturen dan de waarde van uit te lezen.
-    this.setState({ color: color.hex });
-    console.log(this.state.color);
-  };
-
   render() {
+    const { setFieldValue, values } = this.props;
+
     return (
       <Form>
         <h2>Give us your data</h2>
@@ -91,14 +86,14 @@ class RegisterForm extends Component {
           <div className="col-2">
             <div className="form-group">
               <label htmlFor="favorite_color">Favorite color</label>
-              <Field name="favorite_color" type="color">
-                {() => (
-                  <SwatchesPicker
-                    color={this.state.color}
-                    onChangeComplete={this.handleColorChange}
-                  />
-                )}
-              </Field>
+
+              <SwatchesPicker
+                color={values.favorite_color}
+                onChangeComplete={(color) =>
+                  setFieldValue("favorite_color", color.hex)
+                }
+              />
+              <ErrorMessage name="favorite_color" />
             </div>
           </div>
         </div>

@@ -14,13 +14,24 @@ class Register extends Component {
       password: values.password,
       favorite_color: values.favorite_color,
       avatar: values.avatar + values.email,
-    }).then((response) => {
-      alert(response.statusText);
-    });
+    })
+      .then((response) => {
+        this.props.history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
+
   validate = (values) => {
     const errors = {};
-    const requiredFields = ["first_name", "last_name", "email", "password"];
+    const requiredFields = [
+      "first_name",
+      "last_name",
+      "email",
+      "password",
+      "favorite_color",
+    ];
 
     requiredFields.forEach((field) => {
       if (!values[field]) {
@@ -43,10 +54,9 @@ class Register extends Component {
             email: "",
             password: "",
             favorite_color: "",
-            avatar: "https://api.adorable.io/avatars/285/",
           }}
         >
-          <RegisterForm />
+          {(props) => <RegisterForm {...props} />}
         </Formik>
       </div>
     );
