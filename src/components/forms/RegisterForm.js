@@ -5,7 +5,7 @@ import { SwatchesPicker } from "react-color";
 
 class RegisterForm extends Component {
   componentDidMount() {
-    API.get("users/44").then((response) => {
+    API.get("api/users/44").then((response) => {
       console.log(response.data);
     });
   }
@@ -18,6 +18,7 @@ class RegisterForm extends Component {
     // Het kleur component werkt door de huidig geselecteerde kleur in de state op te slaan, dit is heel handig
     // om daar bij het versturen dan de waarde van uit te lezen.
     this.setState({ color: color.hex });
+    console.log(this.state.color);
   };
 
   render() {
@@ -32,6 +33,7 @@ class RegisterForm extends Component {
                 type="text"
                 name="first_name"
                 className="form-control"
+                placeholder="Mark"
                 id="first_name"
               />
               <ErrorMessage
@@ -48,6 +50,7 @@ class RegisterForm extends Component {
                 type="text"
                 name="last_name"
                 className="form-control"
+                placeholder="Markson"
                 id="last_name"
               />
               <ErrorMessage name="last_name" />
@@ -74,22 +77,28 @@ class RegisterForm extends Component {
               <Field
                 type="password"
                 name="password"
+                required
+                autoComplete="current-password"
+                placeholder="Password"
                 className="form-control"
                 id="password"
-                placeholder="name@example.com"
               />
               <ErrorMessage name="email" />
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="col">
+          <div className="col-2">
             <div className="form-group">
               <label htmlFor="favorite_color">Favorite color</label>
-              <SwatchesPicker
-                color={this.state.color}
-                onChangeComplete={this.handleColorChange}
-              />
+              <Field name="favorite_color" type="color">
+                {() => (
+                  <SwatchesPicker
+                    color={this.state.color}
+                    onChangeComplete={this.handleColorChange}
+                  />
+                )}
+              </Field>
             </div>
           </div>
         </div>

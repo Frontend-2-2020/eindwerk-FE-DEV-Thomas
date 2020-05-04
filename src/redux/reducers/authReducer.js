@@ -9,8 +9,6 @@ function authReducer(state = defaultState, action) {
     default:
       return state;
   }
-
-  return state;
 }
 
 export default authReducer;

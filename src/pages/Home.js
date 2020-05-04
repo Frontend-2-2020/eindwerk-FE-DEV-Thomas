@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { getPosts } from "../redux/actions/postActions";
 import { connect } from "react-redux";
 import Post from "../components/Post";
@@ -31,7 +30,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getPosts: () => dispatch(getPosts()),
 });
-
-Home.propTypes = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

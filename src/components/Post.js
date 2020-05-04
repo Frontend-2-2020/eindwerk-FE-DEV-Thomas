@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import moment from "moment";
 
 class Post extends Component {
@@ -25,7 +24,5 @@ class Post extends Component {
     );
   }
 }
-
-Post.propTypes = {};
 
 export default Post;

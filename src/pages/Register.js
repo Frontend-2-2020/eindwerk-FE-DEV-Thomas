@@ -1,15 +1,26 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
 import RegisterForm from "../components/forms/RegisterForm";
-import { API } from "../helpers";
+import { API, TOKEN } from "../helpers";
 
 class Register extends Component {
   register = (values) => {
-    API.post("users", values);
+    console.log(values);
+
+    API.post("api/users", {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      password: values.password,
+      favorite_color: values.favorite_color,
+      avatar: values.avatar + values.email,
+    }).then((response) => {
+      alert(response.statusText);
+    });
   };
   validate = (values) => {
     const errors = {};
-    const requiredFields = ["first_name", "last_name", "email"];
+    const requiredFields = ["first_name", "last_name", "email", "password"];
 
     requiredFields.forEach((field) => {
       if (!values[field]) {
@@ -30,6 +41,7 @@ class Register extends Component {
             first_name: "",
             last_name: "",
             email: "",
+            password: "",
             favorite_color: "",
             avatar: "https://api.adorable.io/avatars/285/",
           }}
