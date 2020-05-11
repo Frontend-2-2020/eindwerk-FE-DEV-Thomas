@@ -1,21 +1,33 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { API } from "../helpers";
 
 class LoginBtn extends Component {
-  render() {
-    const { isLoggedIn, logout, login } = this.props;
+  logout = () => {
+    // Ook bij logout doen we eigenlijk 3 dingen, namelijk het omgekeerde van de login.
 
-    if (this.props.isLoggedIn) {
+    // We verwijderen de token uit localstorage, zodanig dat een user niet opnieuw is ingelogd na een page refresh
+    window.localStorage.setItem("LOGIN_OAUTHTOKEN", undefined);
+
+    // We verwijderen de token uit onze API calls voor de huidige sessie.
+    API.defaults.headers.common["Authorization"] = undefined;
+
+    // We verwijderen de user uit de state
+    this.props.forgetUser();
+  };
+
+  render() {
+    const { user } = this.props;
+    if (user.first_name) {
       return (
         <div>
           <span className="mr-4 text-success">
-            Hi, <span>NAME</span>
+            Hi, <span>{user.first_name}</span>
           </span>
           <button
             className="btn btn-outline-success my-2 my-sm-0"
             type="submit"
-            onClick={logout}
+            onClick={this.logout}
           >
             Logout
           </button>
@@ -24,35 +36,33 @@ class LoginBtn extends Component {
     } else {
       return (
         <div>
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-            onClick={login}
+          <a
+            className="btn btn-outline-success my-2 my-sm-0 ml-2"
+            href="/login"
           >
             Login
-          </button>
+          </a>
+          <a
+            className="btn btn-outline-success my-2 my-sm-0 ml-2"
+            href="/register"
+          >
+            Register
+          </a>
         </div>
       );
     }
   }
 }
 
-LoginBtn.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (store) => {
   return {
-    isLoggedIn: store.auth,
+    user: store.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: () => dispatch({ type: "LOGIN" }),
-    logout: () => dispatch({ type: "LOGOUT" }),
+    forgetUser: () => dispatch({ type: "FORGET_USER" }),
   };
 };
 

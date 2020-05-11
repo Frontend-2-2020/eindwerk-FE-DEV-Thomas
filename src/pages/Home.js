@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { getPosts } from "../redux/actions/postActions";
+import { getUser } from "../redux/actions/authActions";
+
 import { connect } from "react-redux";
 import Post from "../components/Post";
 
 class Home extends Component {
   componentDidMount() {
+    this.props.getUser();
     this.props.getPosts();
   }
 
@@ -29,6 +32,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getPosts: () => dispatch(getPosts()),
+  getUser: () => dispatch(getUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

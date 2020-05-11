@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
 import RegisterForm from "../components/forms/RegisterForm";
-import { API, TOKEN } from "../helpers";
+import { API } from "../helpers";
 
 class Register extends Component {
   register = (values) => {

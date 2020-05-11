@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LoginBtn from "./LoginBtn";
 
 class Navbar extends Component {
   render() {
@@ -12,18 +13,7 @@ class Navbar extends Component {
           </li>
         </ul>
         <div>
-          <a
-            className="btn btn-outline-success my-2 my-sm-0 ml-2"
-            href="/login"
-          >
-            Login
-          </a>
-          <a
-            className="btn btn-outline-success my-2 my-sm-0 ml-2"
-            href="/register"
-          >
-            Register
-          </a>
+          <LoginBtn />
         </div>
       </nav>
     );

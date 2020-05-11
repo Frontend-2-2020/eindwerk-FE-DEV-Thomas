@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import { Form, Field, ErrorMessage } from "formik";
-import { API } from "../../helpers";
 import { SwatchesPicker } from "react-color";
 
 class RegisterForm extends Component {
-  componentDidMount() {
-    API.get("api/users/54").then((response) => {
-      console.log(response.data);
-    });
-  }
-
   state = {
     color: "#00000",
   };
