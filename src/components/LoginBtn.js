@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { API } from "../helpers";
+import { API, TOKEN } from "../helpers";
 
 class LoginBtn extends Component {
   logout = () => {
@@ -18,23 +18,15 @@ class LoginBtn extends Component {
 
   render() {
     const { user } = this.props;
+    console.log(TOKEN);
+    console.log(user);
     if (user.first_name) {
       return (
         <div>
-          <span className="mr-4 text-success">
-            Hi, <span>{user.first_name}</span>
-          </span>
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-            onClick={this.logout}
-          >
-            Logout
-          </button>
-          <a
-            className="btn btn-outline-success my-2 my-sm-0 ml-2"
-            href={"/profile/" + user.id}
-          >
+          <a href={"/profile/" + user.id}>
+            <span className="mr-2 text-success">
+              Hi, <span>{user.first_name}</span>
+            </span>
             <img
               alt={
                 "This is the avatar of " +
@@ -46,8 +38,25 @@ class LoginBtn extends Component {
               style={{ width: "30px" }}
               className="mr-2"
             ></img>
-            My Profile
           </a>
+          <button
+            className="btn btn-outline-success my-2 my-sm-0"
+            type="submit"
+            onClick={this.logout}
+          >
+            Logout
+          </button>
+
+          <div className="newPostDiv">
+            <a href="/newpost">
+              <img
+                alt="New post icon"
+                src="../assets/img/067-plus.svg"
+                style={{ width: "30px" }}
+                className="mr-2 ml-2"
+              ></img>
+            </a>
+          </div>
         </div>
       );
     } else {
@@ -79,6 +88,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getUser: () => dispatch({ type: "GET_USER" }),
     forgetUser: () => dispatch({ type: "FORGET_USER" }),
   };
 };

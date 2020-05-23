@@ -40,8 +40,12 @@ class ProfilePage extends Component {
                   user.last_name
                 }
                 className="mr-4"
-                style={{ width: 128 }}
-                src={user.avatar}
+                style={{ maxHeight: "120px" }}
+                src={
+                  user.avatar.startsWith("http")
+                    ? user.avatar
+                    : "../assets/img/user.png"
+                }
               />
               <div>
                 <h3>

@@ -24,7 +24,11 @@ class Comment extends Component {
                 " " +
                 user.last_name
               }
-              src={user.avatar}
+              src={
+                user.avatar.startsWith("http")
+                  ? user.avatar
+                  : "../assets/img/user.png"
+              }
               style={{ width: "30px" }}
               className="ml-2"
             ></img>

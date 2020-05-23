@@ -4,6 +4,7 @@ import { getUser } from "../redux/actions/authActions";
 
 import { connect } from "react-redux";
 import Post from "../components/Post";
+import { TOKEN } from "../helpers";
 
 class Home extends Component {
   componentDidMount() {
@@ -13,6 +14,7 @@ class Home extends Component {
 
   render() {
     const { posts } = this.props;
+
     return (
       <div className="container mt-4" style={{ maxWidth: "900px" }}>
         <h3>Recent posts</h3>
