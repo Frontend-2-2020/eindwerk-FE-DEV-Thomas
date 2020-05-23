@@ -14,11 +14,17 @@ class Home extends Component {
   render() {
     const { posts } = this.props;
     return (
-      <div className="container mt-4">
-        <h2>Most recent posts</h2>
-        <ul>
+      <div className="container mt-4" style={{ maxWidth: "900px" }}>
+        <h3>Recent posts</h3>
+        <ul style={{ listStyle: "none" }}>
           {posts.map((post) => (
-            <Post post={post} key={post.id} />
+            <li
+              className="clickable"
+              onClick={() => (window.location.href = "/" + post.id)}
+              key={post.id}
+            >
+              <Post post={post} user={post.user} key={post.id} />
+            </li>
           ))}
         </ul>
       </div>

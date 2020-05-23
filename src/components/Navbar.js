@@ -8,7 +8,13 @@ class Navbar extends Component {
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
             <a className="navbar-brand nav-link" href="/">
-              Home <span className="sr-only">(current)</span>
+              <img
+                style={{ width: "40px" }}
+                alt="logo"
+                src="../assets/img/forum.png"
+              />{" "}
+              <span className="sr-only">(current)</span>
+              <span className="ml-2">Front-End Forum</span>
             </a>
           </li>
         </ul>

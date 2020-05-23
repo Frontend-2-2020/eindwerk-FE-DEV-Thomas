@@ -31,6 +31,23 @@ class LoginBtn extends Component {
           >
             Logout
           </button>
+          <a
+            className="btn btn-outline-success my-2 my-sm-0 ml-2"
+            href={"/profile/" + user.id}
+          >
+            <img
+              alt={
+                "This is the avatar of " +
+                user.first_name +
+                " " +
+                user.last_name
+              }
+              src={user.avatar}
+              style={{ width: "30px" }}
+              className="mr-2"
+            ></img>
+            My Profile
+          </a>
         </div>
       );
     } else {

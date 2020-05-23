@@ -12,7 +12,7 @@ ul {
   border: green 1px solid;
 }
 
-.postLi:hover {
+.clickable {
   cursor: pointer;
 }
 
@@ -34,11 +34,10 @@ ul {
 }
 
 .postLi-comments {
-  width: 180px;
-  padding: 0.5em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
+  text-align: right;
   color: green;
+}
+
+.comments {
+  flex-direction: row-reverse
 }

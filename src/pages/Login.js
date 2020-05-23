@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import LoginForm from "../components/forms/LoginForm";
 import { Formik } from "formik";
-import { API, TOKEN } from "../helpers";
+import { API } from "../helpers";
 import { connect } from "react-redux";
 import { getUser } from "../redux/actions/authActions";
 

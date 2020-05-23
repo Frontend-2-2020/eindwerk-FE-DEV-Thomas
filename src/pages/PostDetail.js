@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { getPostDetail } from "../redux/actions/postActions";
 import { connect } from "react-redux";
+import Comment from "../components/Comment";
+import Post from "../components/Post";
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -12,23 +13,30 @@ class PostDetail extends Component {
   render() {
     const { postDetail } = this.props;
 
-    return (
-      <div className="container">
-        <div className="postLi">
-          <div className="postLi-timestamp">
-            <p>{moment(postDetail.created_at).format("LL")}</p>
+    if (postDetail.id) {
+      return (
+        <div className="container" style={{ maxWidth: "900px" }}>
+          <Post post={postDetail} user={postDetail.user}></Post>
+
+          <div className="mt-4">
+            <h4>
+              Comments (<span>{postDetail.comments.length}</span>)
+            </h4>
+            <ul>
+              {postDetail.comments.map((comment) => (
+                <Comment
+                  comment={comment}
+                  user={comment.user}
+                  key={comment.id}
+                />
+              ))}
+            </ul>
           </div>
-          <div className="postLi-content">
-            <h4>{postDetail.title}</h4>
-            <p>{postDetail.body}</p>
-          </div>
-          {/*<div className="postLi-comments">
-            <img src={postDetail.user.avatar} />
-            <span>{postDetail.user.first_name}</span>
-          </div> */}
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <p className="mt-4 text-center">Loading...</p>;
+    }
   }
 }
 

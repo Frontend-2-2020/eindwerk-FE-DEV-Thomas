@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import moment from "moment";
 
-class Post extends Component {
+class Comment extends Component {
   render() {
-    const { post } = this.props;
+    const { comment } = this.props;
     const { user } = this.props;
-
     return (
-      <div className="postLi">
+      <li className="postLi comments">
         <div className="postLi-timestamp">
-          <p>{moment(post.created_at).format("LL")}</p>
+          <p>{moment(comment.created_at).format("LL")}</p>
         </div>
         <div className="postLi-content">
-          <h4>{post.title}</h4>
-          <p dangerouslySetInnerHTML={{ __html: post.body }}></p>
+          <p dangerouslySetInnerHTML={{ __html: comment.body }}></p>
           <p style={{ textAlign: "right" }}>
             <span>says</span>{" "}
             <a style={{ fontWeight: "bold" }} href={"/profile/" + user.id}>
@@ -31,18 +29,10 @@ class Post extends Component {
               className="ml-2"
             ></img>
           </p>
-          {post.comments_count !== undefined ? (
-            <p className="postLi-comments">
-              <span>{post.comments_count} </span>
-              {post.comments_count === 1 ? "comment" : "comments"}
-            </p>
-          ) : (
-            ""
-          )}
         </div>
-      </div>
+      </li>
     );
   }
 }
 
-export default Post;
+export default Comment;
