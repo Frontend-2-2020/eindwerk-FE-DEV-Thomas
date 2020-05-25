@@ -52,23 +52,16 @@ class Post extends Component {
     } else {
       return (
         <div className="postLi">
-          <div className="postLi-timestamp">
-            {this.props.currentUser.id === user.id ? (
-              <div>
-                <img
-                  className="clickable"
-                  alt="Edit icon"
-                  src="../assets/img/063-pencil.svg"
-                  style={{
-                    width: "30px",
-                  }}
-                  onClick={() => this.setState({ editing: true })}
-                ></img>
-              </div>
-            ) : (
-              <div></div>
-            )}
-
+          <div
+            className="postLi-timestamp"
+            style={
+              user.id === this.props.currentUser.id
+                ? {
+                    backgroundColor: this.props.currentUser.favorite_color,
+                  }
+                : {}
+            }
+          >
             <p>{moment(post.created_at).format("LL")}</p>
           </div>
           <div className="postLi-content">

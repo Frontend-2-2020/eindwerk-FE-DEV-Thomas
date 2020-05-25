@@ -1,4 +1,4 @@
-const initialState = { posts: [], postDetail: {} };
+const initialState = { posts: [], postDetail: {}, newComment: {} };
 
 function postReducer(store = initialState, action) {
   switch (action.type) {
@@ -14,10 +14,18 @@ function postReducer(store = initialState, action) {
       };
     case "EDIT_POST":
       return {
-        ...store,
-        posts: store.posts.posts.map((post) =>
+        posts: store.posts.map((post) =>
           post.id === action.payload.id ? action.payload : post
         ),
+        postDetail: { ...store.postDetail, ...action.payload },
+      };
+    case "ADD_COMMENT":
+      return {
+        ...store,
+        postDetail: {
+          ...store.postDetail.comments,
+          ...action.payload,
+        },
       };
     default:
       return store;

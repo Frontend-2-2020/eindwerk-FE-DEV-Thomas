@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NewPost from "./pages/NewPost";
 import Navbar from "./components/Navbar";
+import { connect } from "react-redux";
+import { getUser } from "./redux/actions/authActions";
 
 class App extends Component {
   render() {
@@ -30,4 +32,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (store) => ({
+  user: store.auth,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getUser: () => getUser(),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);

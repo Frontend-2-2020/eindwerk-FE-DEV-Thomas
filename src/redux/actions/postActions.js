@@ -32,3 +32,26 @@ export const editPost = (postId, values) => {
     });
   };
 };
+
+export const addComment = (values, user) => {
+  return function (dispatch) {
+    API.post("api/comments", values).then((response) => {
+      console.log(response);
+      dispatch({
+        type: "ADD_COMMENT",
+        payload: { ...response.data, user },
+      });
+    });
+  };
+};
+
+// export const editComment = (postId, values) => {
+//   return function (dispatch) {
+//     API.put("api/comments/" + postId, values).then((response) => {
+//       dispatch({
+//         type: "EDIT_POST",
+//         payload: response.data,
+//       });
+//     });
+//   };
+// };

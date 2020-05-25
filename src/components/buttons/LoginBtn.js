@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { API } from "../../helpers";
+import { API, TOKEN } from "../../helpers";
 import { Link } from "react-router-dom";
 import { getUser } from "../../redux/actions/authActions";
 
@@ -21,6 +21,10 @@ class LoginBtn extends Component {
   render() {
     const { user } = this.props;
 
+    if (TOKEN && !user.first_name) {
+      this.props.getUser();
+    }
+
     if (user.first_name) {
       return (
         <div>
@@ -35,7 +39,11 @@ class LoginBtn extends Component {
                 " " +
                 user.last_name
               }
-              src={user.avatar}
+              src={
+                user.avatar.startsWith("http")
+                  ? user.avatar
+                  : "../assets/img/user.png"
+              }
               style={{ width: "30px" }}
               className="mr-2"
             ></img>

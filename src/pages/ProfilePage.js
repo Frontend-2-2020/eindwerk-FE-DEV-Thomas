@@ -20,14 +20,18 @@ class ProfilePage extends Component {
   }
 
   render() {
-    const { profileUser } = this.state;
+    let { profileUser } = this.state;
+    if (this.props.match.params.id === this.props.user.id) {
+      this.setState({ profileUser: this.props.user });
+    }
+
     if (profileUser.first_name) {
       return (
         <div className="container mt-4 pt-4" style={{ maxWidth: "900px" }}>
           {" "}
           <div>
             <h1>
-              {(profileUser.id = this.props.user.id ? "My Profile" : "Profile")}
+              {profileUser.id === this.props.user.id ? "My Profile" : "Profile"}
             </h1>
             <div className="d-flex mb-4">
               <img
@@ -82,7 +86,12 @@ class ProfilePage extends Component {
                 )
                 .map((post) => (
                   <li key={post.id}>
-                    <Post post={post} user={profileUser} />
+                    <Link
+                      to={"/" + post.id}
+                      style={{ textDecoration: "inherit", color: "inherit" }}
+                    >
+                      <Post post={post} user={profileUser} />
+                    </Link>
                   </li>
                 ))}
             </ul>
