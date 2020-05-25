@@ -5,7 +5,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import CustomErrorMessage from "../CustomErrorMessage";
 
-class EditForm extends Component {
+class NewPostForm extends Component {
   render() {
     const { setFieldValue, values } = this.props;
     if (TOKEN) {
@@ -36,7 +36,13 @@ class EditForm extends Component {
             />
             <CustomErrorMessage name="body" />
           </div>
-          <div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             <button
               type="submit"
               value="Save"
@@ -53,4 +59,4 @@ class EditForm extends Component {
   }
 }
 
-export default EditForm;
+export default NewPostForm;

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { API, TOKEN } from "../helpers";
+import { API } from "../../helpers";
+import { Link } from "react-router-dom";
+import { getUser } from "../../redux/actions/authActions";
 
 class LoginBtn extends Component {
   logout = () => {
@@ -18,15 +20,14 @@ class LoginBtn extends Component {
 
   render() {
     const { user } = this.props;
-    console.log(TOKEN);
-    console.log(user);
+
     if (user.first_name) {
       return (
         <div>
-          <a href={"/profile/" + user.id}>
-            <span className="mr-2 text-success">
-              Hi, <span>{user.first_name}</span>
-            </span>
+          <span className="mr-2 text-success">
+            Hi, <span>{user.first_name}</span>
+          </span>
+          <Link to={"/profile/" + user.id}>
             <img
               alt={
                 "This is the avatar of " +
@@ -38,7 +39,7 @@ class LoginBtn extends Component {
               style={{ width: "30px" }}
               className="mr-2"
             ></img>
-          </a>
+          </Link>
           <button
             className="btn btn-outline-success my-2 my-sm-0"
             type="submit"
@@ -48,32 +49,32 @@ class LoginBtn extends Component {
           </button>
 
           <div className="newPostDiv">
-            <a href="/newpost">
+            <Link to="/newpost">
               <img
                 alt="New post icon"
                 src="../assets/img/067-plus.svg"
                 style={{ width: "30px" }}
                 className="mr-2 ml-2"
               ></img>
-            </a>
+            </Link>
           </div>
         </div>
       );
     } else {
       return (
         <div>
-          <a
+          <Link
             className="btn btn-outline-success my-2 my-sm-0 ml-2"
-            href="/login"
+            to="/login"
           >
             Login
-          </a>
-          <a
+          </Link>
+          <Link
             className="btn btn-outline-success my-2 my-sm-0 ml-2"
-            href="/register"
+            to="/register"
           >
             Register
-          </a>
+          </Link>
         </div>
       );
     }
@@ -88,7 +89,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: () => dispatch({ type: "GET_USER" }),
+    getUser: () => dispatch(getUser()),
     forgetUser: () => dispatch({ type: "FORGET_USER" }),
   };
 };

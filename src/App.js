@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NewPost from "./pages/NewPost";
+import Navbar from "./components/Navbar";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-
         <Router>
+          <Navbar />
+
           <Switch>
             <Route path="/login" component={Login}></Route>
             <Route path="/register" component={Register}></Route>

@@ -4,18 +4,29 @@ export const getPosts = () => {
   return function (dispatch) {
     API.get("api/posts").then((response) => {
       dispatch({
-        type: "ADD_POSTS",
+        type: "GET_POSTS",
         payload: response.data.data,
       });
     });
   };
 };
 
-export const getPostDetail = (postId) => {
+export const getDetailPost = (postId) => {
   return function (dispatch) {
     API.get("api/posts/" + postId).then((response) => {
       dispatch({
-        type: "LOAD_DETAIL",
+        type: "GET_DETAIL",
+        payload: response.data,
+      });
+    });
+  };
+};
+
+export const editPost = (postId, values) => {
+  return function (dispatch) {
+    API.put("api/posts/" + postId, values).then((response) => {
+      dispatch({
+        type: "EDIT_POST",
         payload: response.data,
       });
     });

@@ -4,7 +4,7 @@ import { getUser } from "../redux/actions/authActions";
 
 import { connect } from "react-redux";
 import Post from "../components/Post";
-import { TOKEN } from "../helpers";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   componentDidMount() {
@@ -20,12 +20,13 @@ class Home extends Component {
         <h3>Recent posts</h3>
         <ul style={{ listStyle: "none" }}>
           {posts.map((post) => (
-            <li
-              className="clickable"
-              onClick={() => (window.location.href = "/" + post.id)}
-              key={post.id}
-            >
-              <Post post={post} user={post.user} key={post.id} />
+            <li className="" key={post.id}>
+              <Link
+                to={"/" + post.id}
+                style={{ textDecoration: "inherit", color: "inherit" }}
+              >
+                <Post post={post} user={post.user} key={post.id} />
+              </Link>
             </li>
           ))}
         </ul>
@@ -35,7 +36,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  posts: state.posts,
+  posts: state.posts.posts,
 });
 
 const mapDispatchToProps = (dispatch) => ({

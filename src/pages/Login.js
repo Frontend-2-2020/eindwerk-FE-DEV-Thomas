@@ -28,7 +28,7 @@ class Login extends Component {
         "Bearer " + response.data.access_token;
 
       // Na het juist instellen van alles kunnen we gaan ophalen wie er is ingelogd om dit dan weer te geven op de pagina
-      this.props.getUser(response);
+      this.props.getUser();
 
       if (this.props.user) {
         this.props.history.push("/");

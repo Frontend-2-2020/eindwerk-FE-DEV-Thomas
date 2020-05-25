@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 class Comment extends Component {
   render() {
@@ -14,9 +15,9 @@ class Comment extends Component {
           <p dangerouslySetInnerHTML={{ __html: comment.body }}></p>
           <p style={{ textAlign: "right" }}>
             <span>says</span>{" "}
-            <a style={{ fontWeight: "bold" }} href={"/profile/" + user.id}>
+            <Link style={{ fontWeight: "bold" }} to={"/profile/" + user.id}>
               {user.first_name} {user.last_name}
-            </a>
+            </Link>
             <img
               alt={
                 "This is the avatar of " +

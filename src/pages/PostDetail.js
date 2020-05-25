@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { getPostDetail } from "../redux/actions/postActions";
 import { connect } from "react-redux";
 import Comment from "../components/Comment";
 import Post from "../components/Post";
+import { getDetailPost } from "../redux/actions/postActions";
 
 class PostDetail extends Component {
   componentDidMount() {
-    const postId = this.props.match.params.id;
-    this.props.getPostDetail(postId);
+    this.props.getDetailPost(this.props.match.params.id);
   }
 
   render() {
     const { postDetail } = this.props;
-
+    console.log(postDetail);
     if (postDetail.id) {
       return (
         <div className="container" style={{ maxWidth: "900px" }}>
@@ -40,11 +39,12 @@ class PostDetail extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  postDetail: state.posts,
+const mapStateToProps = (store) => ({
+  postDetail: store.posts.postDetail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPostDetail: (postId) => dispatch(getPostDetail(postId)),
+  getDetailPost: (postId) => dispatch(getDetailPost(postId)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

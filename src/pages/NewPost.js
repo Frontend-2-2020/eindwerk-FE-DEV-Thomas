@@ -1,13 +1,20 @@
 import React, { Component } from "react";
-import EditForm from "../components/forms/EditForm";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import { API } from "../helpers";
+import NewPostForm from "../components/forms/NewPostForm";
 
 class NewPost extends Component {
   submitHandler = (values) => {
     console.log(values);
     console.log(this.props.user);
+    API.post("api/posts", {
+      body: values.body,
+      title: values.title,
+      user: this.user,
+    }).then((response) => {
+      this.props.history.push("/");
+    });
   };
 
   validate = (values) => {
@@ -24,6 +31,7 @@ class NewPost extends Component {
   };
 
   render() {
+    console.log(this.props.user);
     return (
       <div className="container mt-4" style={{ maxWidth: "900px" }}>
         {" "}
@@ -36,16 +44,16 @@ class NewPost extends Component {
             body: "",
           }}
         >
-          {(props) => <EditForm {...props} />}
+          {(props) => <NewPostForm {...props} />}
         </Formik>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
   return {
-    user: state.auth,
+    user: store.auth,
   };
 };
 

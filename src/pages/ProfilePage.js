@@ -4,66 +4,67 @@ import moment from "moment";
 import { connect } from "react-redux";
 import Post from "../components/Post";
 import Comment from "../components/Comment";
+import { HashLink as Link } from "react-router-hash-link";
 
 class ProfilePage extends Component {
-  state = { user: {} };
+  state = { profileUser: {} };
 
   componentDidMount() {
     API.get("api/users/" + this.props.match.params.id).then((response) => {
       this.setState({
-        user: response.data,
+        profileUser: response.data,
       });
       console.log(this.state);
+      console.log(this.props.currentUser);
     });
   }
 
   render() {
-    const { user } = this.state;
-    if (user.first_name) {
+    const { profileUser } = this.state;
+    if (profileUser.first_name) {
       return (
         <div className="container mt-4 pt-4" style={{ maxWidth: "900px" }}>
           {" "}
           <div>
             <h1>
-              {
-                (this.props.match.params.id = this.props.currentUser.id
-                  ? "My Profile"
-                  : "Profile")
-              }
+              {(profileUser.id = this.props.user.id ? "My Profile" : "Profile")}
             </h1>
             <div className="d-flex mb-4">
               <img
                 alt={
                   "This is the avatar of " +
-                  user.first_name +
+                  profileUser.first_name +
                   " " +
-                  user.last_name
+                  profileUser.last_name
                 }
                 className="mr-4"
                 style={{ maxHeight: "120px" }}
                 src={
-                  user.avatar.startsWith("http")
-                    ? user.avatar
+                  profileUser.avatar.startsWith("http")
+                    ? profileUser.avatar
                     : "../assets/img/user.png"
                 }
               />
               <div>
                 <h3>
-                  {user.first_name} {user.last_name}
+                  {profileUser.first_name} {profileUser.last_name}
                 </h3>
                 <ul style={{ listStyle: "none" }}>
                   <li>
-                    Email: <a href={"mailto:" + user.email}>{user.email}</a>
+                    Email:{" "}
+                    <a href={"mailto:" + profileUser.email}>
+                      {profileUser.email}
+                    </a>
                   </li>
                   <li>
                     Last login: {moment(this.state.last_login_at).format("LL")}
                     {}
                   </li>
                   <li>
-                    <a href="#blogPosts">View blog posts</a>
+                    <Link to="#blogPosts">View blog posts</Link>
                   </li>
                   <li>
-                    <a href="#comments">View comments</a>
+                    <Link to="#comments">View comments</Link>
                   </li>
                 </ul>
               </div>
@@ -71,27 +72,27 @@ class ProfilePage extends Component {
           </div>
           <div className="mt-4">
             <h4 id="blogPosts">
-              Blog posts (<span>{user.blog_posts.length}</span>)
+              Blog posts (<span>{profileUser.blog_posts.length}</span>)
             </h4>
             <ul style={{ listStyle: "none" }}>
-              {user.blog_posts
+              {profileUser.blog_posts
                 .sort(
                   ({ id: previousId }, { id: currentId }) =>
                     currentId - previousId
                 )
                 .map((post) => (
                   <li key={post.id}>
-                    <Post post={post} user={user} key={post.id} />
+                    <Post post={post} user={profileUser} />
                   </li>
                 ))}
             </ul>
           </div>
           <div className="mt-4">
             <h4 id="comments">
-              Comments (<span>{user.comments.length}</span>)
+              Comments (<span>{profileUser.comments.length}</span>)
             </h4>
             <ul style={{ listStyle: "none" }}>
-              {user.comments
+              {profileUser.comments
                 .sort(
                   ({ id: previousId }, { id: currentId }) =>
                     currentId - previousId
@@ -100,11 +101,15 @@ class ProfilePage extends Component {
                   <li key={comment.id} className="mt-4">
                     <h5 className="mb-0">
                       Answer to{" "}
-                      <a href={"/" + comment.blog_post.id}>
+                      <Link to={"/" + comment.blog_post.id}>
                         {comment.blog_post.title}
-                      </a>
+                      </Link>
                     </h5>
-                    <Comment comment={comment} user={user} key={comment.id} />
+                    <Comment
+                      comment={comment}
+                      user={profileUser}
+                      key={comment.id}
+                    />
                   </li>
                 ))}
             </ul>
@@ -117,8 +122,8 @@ class ProfilePage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  currentUser: state.auth,
+const mapStateToProps = (store) => ({
+  user: store.auth,
 });
 
 export default connect(mapStateToProps)(ProfilePage);
