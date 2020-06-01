@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 import { Formik } from "formik";
 import NewPostForm from "./forms/NewPostForm";
 import { editPost } from "../redux/actions/postActions";
+import { deletePost } from "../redux/actions/postActions";
 
 class Post extends Component {
-  state = { editing: false };
+  state = { editingPost: false };
 
   submitHandler = (values) => {
     const newValues = {
@@ -16,7 +17,7 @@ class Post extends Component {
       user: this.props.currentUser,
     };
     this.props.editPost(this.props.post.id, newValues);
-    this.setState({ editing: false });
+    this.setState({ editingPost: false });
   };
 
   validate = (values) => {
@@ -36,7 +37,7 @@ class Post extends Component {
     const { post } = this.props;
     const { user } = this.props;
 
-    if (this.state.editing === true) {
+    if (this.state.editingPost === true) {
       return (
         <Formik
           onSubmit={this.submitHandler}
@@ -63,6 +64,33 @@ class Post extends Component {
             }
           >
             <p>{moment(post.created_at).format("LL")}</p>
+            {this.props.currentUser.id === user.id &&
+            window.location.pathname === "/post/" + post.id ? (
+              <div>
+                <img
+                  className="clickable"
+                  alt="Edit icon"
+                  src="../assets/img/063-pencil.svg"
+                  style={{
+                    width: "30px",
+                  }}
+                  onClick={() => this.setState({ editingPost: true })}
+                ></img>
+                <img
+                  className="clickable ml-2"
+                  alt="Edit icon"
+                  src="../assets/img/089-trash.svg"
+                  style={{
+                    width: "30px",
+                  }}
+                  onClick={() =>
+                    this.props.deletePost(post.id, this.props.history)
+                  }
+                ></img>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
           <div className="postLi-content">
             <h4>{post.title}</h4>
@@ -105,13 +133,14 @@ class Post extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    currentUser: store.auth,
+    currentUser: store.auth.currentUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     editPost: (postId, values) => dispatch(editPost(postId, values)),
+    deletePost: (id, history) => dispatch(deletePost(id, history)),
   };
 };
 

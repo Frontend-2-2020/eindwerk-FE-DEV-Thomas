@@ -10,3 +10,14 @@ export const getUser = () => {
     });
   };
 };
+
+export const getProfileUser = (id) => {
+  return function (dispatch) {
+    API.get("api/users/" + id).then((response) => {
+      dispatch({
+        type: "GET_PROFILEUSER",
+        payload: response.data,
+      });
+    });
+  };
+};

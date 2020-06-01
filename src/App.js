@@ -23,7 +23,7 @@ class App extends Component {
             <Route path="/register" component={Register}></Route>
             <Route path="/newpost" component={NewPost}></Route>
             <Route path="/profile/:id" component={ProfilePage}></Route>
-            <Route path="/:id" component={PostDetail}></Route>
+            <Route path="/post/:id" component={PostDetail}></Route>
             <Route path={["/", "/:page"]} exact component={Home}></Route>
           </Switch>
         </Router>
@@ -33,7 +33,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (store) => ({
-  user: store.auth,
+  currentUser: store.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

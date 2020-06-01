@@ -44,19 +44,11 @@ class PostDetail extends Component {
     if (postDetail.id) {
       return (
         <div className="container" style={{ maxWidth: "900px" }}>
-          <Post post={postDetail} user={postDetail.user}></Post>
-          {this.props.currentUser.id === postDetail.user.id ? (
-            <div>
-              <button
-                className="mt-4 btn btn-outline-success"
-                onClick={() => this.setState({ editingPost: true })}
-              >
-                Edit
-              </button>
-            </div>
-          ) : (
-            <div></div>
-          )}
+          <Post
+            history={this.props.history}
+            post={postDetail}
+            user={postDetail.user}
+          ></Post>
 
           <div className="mt-4">
             <h4>
@@ -102,7 +94,7 @@ class PostDetail extends Component {
 
 const mapStateToProps = (store) => ({
   postDetail: store.posts.postDetail,
-  currentUser: store.auth,
+  currentUser: store.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

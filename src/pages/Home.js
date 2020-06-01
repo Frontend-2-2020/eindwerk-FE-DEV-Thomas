@@ -22,7 +22,7 @@ class Home extends Component {
           {posts.map((post) => (
             <li className="" key={post.id}>
               <Link
-                to={"/" + post.id}
+                to={"/post/" + post.id}
                 style={{ textDecoration: "inherit", color: "inherit" }}
               >
                 <Post post={post} user={post.user} key={post.id} />

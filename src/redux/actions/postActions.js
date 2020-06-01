@@ -33,6 +33,18 @@ export const editPost = (postId, values) => {
   };
 };
 
+export const deletePost = (id, history) => {
+  return function (dispatch) {
+    API.delete("api/posts/" + id).then((response) => {
+      dispatch({
+        type: "DELETE_POST",
+        payload: response.data,
+      });
+      history.push("/");
+    });
+  };
+};
+
 export const addComment = (values, user) => {
   return function (dispatch) {
     API.post("api/comments", values).then((response) => {
@@ -45,13 +57,24 @@ export const addComment = (values, user) => {
   };
 };
 
-// export const editComment = (postId, values) => {
-//   return function (dispatch) {
-//     API.put("api/comments/" + postId, values).then((response) => {
-//       dispatch({
-//         type: "EDIT_POST",
-//         payload: response.data,
-//       });
-//     });
-//   };
-// };
+export const editComment = (values, id, user) => {
+  return function (dispatch) {
+    API.put("api/comments/" + id, values).then((response) => {
+      dispatch({
+        type: "EDIT_COMMENT",
+        payload: { ...response.data, user },
+      });
+    });
+  };
+};
+
+export const deleteComment = (id) => {
+  return function (dispatch) {
+    API.delete("api/comments/" + id).then((response) => {
+      dispatch({
+        type: "DELETE_COMMENT",
+        payload: id,
+      });
+    });
+  };
+};

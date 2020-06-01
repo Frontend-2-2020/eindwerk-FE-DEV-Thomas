@@ -30,7 +30,7 @@ class Login extends Component {
       // Na het juist instellen van alles kunnen we gaan ophalen wie er is ingelogd om dit dan weer te geven op de pagina
       this.props.getUser();
 
-      if (this.props.user) {
+      if (this.props.currentUser) {
         this.props.history.push("/");
       }
     });
@@ -69,7 +69,7 @@ class Login extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    user: store.auth,
+    currentUser: store.auth.currentUser,
   };
 };
 

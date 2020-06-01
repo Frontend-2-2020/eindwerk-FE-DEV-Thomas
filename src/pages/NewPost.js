@@ -7,11 +7,11 @@ import NewPostForm from "../components/forms/NewPostForm";
 class NewPost extends Component {
   submitHandler = (values) => {
     console.log(values);
-    console.log(this.props.user);
+    console.log(this.props.currentUser);
     API.post("api/posts", {
       body: values.body,
       title: values.title,
-      user: this.user,
+      user: this.currentUser,
     }).then((response) => {
       this.props.history.push("/");
     });
@@ -53,7 +53,7 @@ class NewPost extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    user: store.auth,
+    currentUser: store.auth.currentUser,
   };
 };
 

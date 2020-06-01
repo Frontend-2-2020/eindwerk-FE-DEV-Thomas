@@ -1,28 +1,36 @@
 import React, { Component } from "react";
-import { API } from "../helpers";
 import moment from "moment";
 import { connect } from "react-redux";
 import Post from "../components/Post";
 import Comment from "../components/Comment";
 import { HashLink as Link } from "react-router-hash-link";
+import { getProfileUser } from "../redux/actions/authActions";
 
 class ProfilePage extends Component {
-  state = { profileUser: {} };
+  // state = { profileUser: {} };
 
   componentDidMount() {
-    API.get("api/users/" + this.props.match.params.id).then((response) => {
-      this.setState({
-        profileUser: response.data,
-      });
-      console.log(this.state);
-      console.log(this.props.currentUser);
-    });
+    this.props.getProfileUser(this.props.match.params.id);
+
+    // API.get("api/users/" + this.props.match.params.id).then((response) => {
+    //   this.setState({
+    //     profileUser: response.data,
+    //   });
+    //   console.log(this.state);
+    //   console.log(this.props.currentUser);
+    // });
+  }
+
+  componentDidUpdate() {
+    if (this.props.match.params.id === this.props.currentUser.id) {
+      this.props.getProfileUser(this.props.match.params.id);
+    }
   }
 
   render() {
-    let { profileUser } = this.state;
-    if (this.props.match.params.id === this.props.user.id) {
-      this.setState({ profileUser: this.props.user });
+    const { profileUser } = this.props;
+    if (this.props.match.params.id === this.props.currentUser.id) {
+      this.props.getProfileUser(this.props.match.params.id);
     }
 
     if (profileUser.first_name) {
@@ -31,7 +39,9 @@ class ProfilePage extends Component {
           {" "}
           <div>
             <h1>
-              {profileUser.id === this.props.user.id ? "My Profile" : "Profile"}
+              {profileUser.id === this.props.currentUser.id
+                ? "My Profile"
+                : "Profile"}
             </h1>
             <div className="d-flex mb-4">
               <img
@@ -61,7 +71,7 @@ class ProfilePage extends Component {
                     </a>
                   </li>
                   <li>
-                    Last login: {moment(this.state.last_login_at).format("LL")}
+                    Last login: {moment(profileUser.last_login_at).format("LL")}
                     {}
                   </li>
                   <li>
@@ -87,7 +97,7 @@ class ProfilePage extends Component {
                 .map((post) => (
                   <li key={post.id}>
                     <Link
-                      to={"/" + post.id}
+                      to={"/post/" + post.id}
                       style={{ textDecoration: "inherit", color: "inherit" }}
                     >
                       <Post post={post} user={profileUser} />
@@ -110,7 +120,7 @@ class ProfilePage extends Component {
                   <li key={comment.id} className="mt-4">
                     <h5 className="mb-0">
                       Answer to{" "}
-                      <Link to={"/" + comment.blog_post.id}>
+                      <Link to={"/post/" + comment.blog_post.id}>
                         {comment.blog_post.title}
                       </Link>
                     </h5>
@@ -132,7 +142,12 @@ class ProfilePage extends Component {
 }
 
 const mapStateToProps = (store) => ({
-  user: store.auth,
+  currentUser: store.auth.currentUser,
+  profileUser: store.auth.profileUser,
 });
 
-export default connect(mapStateToProps)(ProfilePage);
+const mapDispatchToProps = (dispatch) => ({
+  getProfileUser: (id) => dispatch(getProfileUser(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

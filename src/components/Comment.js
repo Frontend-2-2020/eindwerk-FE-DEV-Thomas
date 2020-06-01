@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import NewCommentForm from "./forms/NewCommentForm";
+import { editComment } from "../redux/actions/postActions";
+import { deleteComment } from "../redux/actions/postActions";
 
 class Comment extends Component {
   state = { editing: false };
 
-  submitHandler = (values) => {
-    const newValues = {
-      body: values.body,
-      user: this.props.currentUser,
-    };
-    //this.props.editPost(this.props.post.id, newValues);
+  submitEditingComment = (values) => {
+    console.log("received values from Formik");
+    this.props.editComment(values, this.props.comment.id, this.props.user);
     this.setState({ editing: false });
   };
 
@@ -37,7 +36,7 @@ class Comment extends Component {
     if (this.state.editing === true) {
       return (
         <Formik
-          onSubmit={this.submitHandler}
+          onSubmit={this.submitEditingComment}
           validate={this.validate}
           initialValues={{
             body: comment.body,
@@ -60,7 +59,9 @@ class Comment extends Component {
             }
           >
             <p>{moment(comment.created_at).format("LL")}</p>
-            {this.props.currentUser.id === user.id ? (
+            {this.props.currentUser.id === user.id &&
+            window.location.pathname ===
+              "/post/" + this.props.comment.blog_post_id ? (
               <div>
                 <img
                   className="clickable"
@@ -70,6 +71,17 @@ class Comment extends Component {
                     width: "30px",
                   }}
                   onClick={() => this.setState({ editing: true })}
+                ></img>
+                <img
+                  className="clickable ml-2"
+                  alt="Edit icon"
+                  src="../assets/img/089-trash.svg"
+                  style={{
+                    width: "30px",
+                  }}
+                  onClick={() =>
+                    this.props.deleteComment(this.props.comment.id)
+                  }
                 ></img>
               </div>
             ) : (
@@ -108,13 +120,14 @@ class Comment extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    currentUser: store.auth,
+    currentUser: store.auth.currentUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // editComment: (postId, values) => dispatch(editPost(postId, values)),
+    editComment: (values, id, user) => dispatch(editComment(values, id, user)),
+    deleteComment: (id) => dispatch(deleteComment(id)),
   };
 };
 

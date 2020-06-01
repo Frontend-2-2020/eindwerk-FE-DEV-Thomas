@@ -36,6 +36,10 @@ ul {
   flex-direction: column;
 }
 
+.postLi-content img {
+  max-width: 100%;
+}
+
 .postLi-comments {
   text-align: right;
   color: green;

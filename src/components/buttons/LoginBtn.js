@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { API, TOKEN } from "../../helpers";
 import { Link } from "react-router-dom";
 import { getUser } from "../../redux/actions/authActions";
+import { getProfileUser } from "../../redux/actions/authActions";
 
 class LoginBtn extends Component {
   logout = () => {
@@ -19,29 +20,32 @@ class LoginBtn extends Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { currentUser } = this.props;
 
-    if (TOKEN && !user.first_name) {
+    if (TOKEN && !currentUser.first_name) {
       this.props.getUser();
     }
 
-    if (user.first_name) {
+    if (currentUser.first_name) {
       return (
         <div>
           <span className="mr-2 text-success">
-            Hi, <span>{user.first_name}</span>
+            Hi, <span>{currentUser.first_name}</span>
           </span>
-          <Link to={"/profile/" + user.id}>
+          <Link
+            to={"/profile/" + currentUser.id}
+            onClick={() => this.props.getProfileUser(currentUser.id)}
+          >
             <img
               alt={
                 "This is the avatar of " +
-                user.first_name +
+                currentUser.first_name +
                 " " +
-                user.last_name
+                currentUser.last_name
               }
               src={
-                user.avatar.startsWith("http")
-                  ? user.avatar
+                currentUser.avatar.startsWith("http")
+                  ? currentUser.avatar
                   : "../assets/img/user.png"
               }
               style={{ width: "30px" }}
@@ -91,12 +95,13 @@ class LoginBtn extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    user: store.auth,
+    currentUser: store.auth.currentUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getProfileUser: (currentUser) => dispatch(getProfileUser(currentUser)),
     getUser: () => dispatch(getUser()),
     forgetUser: () => dispatch({ type: "FORGET_USER" }),
   };
