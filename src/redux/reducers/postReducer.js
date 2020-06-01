@@ -5,7 +5,7 @@ function postReducer(store = initialState, action) {
     case "GET_POSTS":
       return {
         ...store,
-        posts: action.payload,
+        posts: action.payload.data,
       };
     case "GET_DETAIL":
       return {

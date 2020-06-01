@@ -5,6 +5,7 @@ import { getUser } from "../redux/actions/authActions";
 import { connect } from "react-redux";
 import Post from "../components/Post";
 import { Link } from "react-router-dom";
+import Pagination from "@material-ui/lab/Pagination";
 
 class Home extends Component {
   componentDidMount() {
@@ -30,6 +31,16 @@ class Home extends Component {
             </li>
           ))}
         </ul>
+        <div className="d-flex justify-content-center">
+          <Pagination
+            page={posts.current_page}
+            boundaryCount={1}
+            count={10}
+            onChange={console.log("paginatie veranderd")}
+            shape="rounded"
+            size="large"
+          />
+        </div>
       </div>
     );
   }

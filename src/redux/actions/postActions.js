@@ -5,7 +5,7 @@ export const getPosts = () => {
     API.get("api/posts").then((response) => {
       dispatch({
         type: "GET_POSTS",
-        payload: response.data.data,
+        payload: response.data,
       });
     });
   };
