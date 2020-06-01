@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Martel:wght@800&family=Roboto&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Martel', serif
+}
+
 ul {
   padding: 0px;
 }
@@ -21,7 +34,7 @@ ul {
   padding: 1em;
   color: white;
   background: green;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px;
   width: 110px;
   display: flex;
   flex-direction: column-reverse;

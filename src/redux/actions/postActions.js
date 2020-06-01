@@ -1,12 +1,24 @@
 import { API } from "../../helpers";
 
-export const getPosts = () => {
+export const getPosts = (currentPage) => {
   return function (dispatch) {
-    API.get("api/posts").then((response) => {
+    API.get("api/posts?page=" + currentPage).then((response) => {
       dispatch({
         type: "GET_POSTS",
         payload: response.data,
       });
+    });
+  };
+};
+
+export const updatePage = (newPage) => {
+  return function (dispatch) {
+    API.get("api/posts?page=" + newPage).then((response) => {
+      dispatch({
+        type: "UPDATE_PAGE",
+        payload: response.data,
+      });
+      window.scrollTo(0, 0);
     });
   };
 };

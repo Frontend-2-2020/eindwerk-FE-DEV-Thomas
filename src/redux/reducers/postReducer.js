@@ -1,10 +1,22 @@
-const initialState = { posts: [], postDetail: {}, deleteStatus: "updated" };
+const initialState = {
+  posts: [],
+  postDetail: {},
+  deleteStatus: "updated",
+  currentPage: 1,
+};
 
 function postReducer(store = initialState, action) {
   switch (action.type) {
     case "GET_POSTS":
       return {
         ...store,
+        posts: action.payload.data,
+      };
+
+    case "UPDATE_PAGE":
+      return {
+        ...store,
+        currentPage: action.payload.current_page,
         posts: action.payload.data,
       };
     case "GET_DETAIL":

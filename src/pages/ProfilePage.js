@@ -5,6 +5,7 @@ import Post from "../components/Post";
 import Comment from "../components/Comment";
 import { HashLink as Link } from "react-router-hash-link";
 import { getProfileUser } from "../redux/actions/authActions";
+import Loader from "../components/Loader";
 
 class ProfilePage extends Component {
   // state = { profileUser: {} };
@@ -136,7 +137,7 @@ class ProfilePage extends Component {
         </div>
       );
     } else {
-      return <p className="mt-4 text-center">Loading...</p>;
+      return <Loader />;
     }
   }
 }
