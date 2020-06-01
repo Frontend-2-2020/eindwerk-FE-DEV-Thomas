@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { connect } from "react-redux";
 import { API } from "../helpers";
 import NewPostForm from "../components/forms/NewPostForm";
+import PropTypes from "prop-types";
 
 class NewPost extends Component {
   submitHandler = (values) => {
@@ -56,5 +57,7 @@ const mapStateToProps = (store) => {
     currentUser: store.auth.currentUser,
   };
 };
+
+NewPost.propTypes = {};
 
 export default connect(mapStateToProps)(NewPost);

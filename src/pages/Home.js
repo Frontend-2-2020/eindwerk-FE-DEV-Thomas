@@ -68,7 +68,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPosts: () => dispatch(getPosts()),
+  getPosts: (currentPage) => dispatch(getPosts(currentPage)),
   getUser: () => dispatch(getUser()),
   updatePage: (newPage) => dispatch(updatePage(newPage)),
 });
