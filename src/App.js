@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
+// Import pages for router
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NewPost from "./pages/NewPost";
+
+// Other components
 import Navbar from "./components/Navbar";
+
+// Actions
 import { getUser } from "./redux/actions/authActions";
 import { getPosts } from "./redux/actions/postActions";
 
-import { connect } from "react-redux";
+// Variables
 import { TOKEN } from "./helpers";
 
 class App extends Component {
@@ -40,7 +46,7 @@ class App extends Component {
             <Route path="/newpost" component={NewPost}></Route>
             <Route path="/profile/:id" component={ProfilePage}></Route>
             <Route path="/post/:id" component={PostDetail}></Route>
-            <Route path={["/", "/:page"]} exact component={Home}></Route>
+            <Route path={["", "/", "/:page"]} exact component={Home}></Route>
           </Switch>
         </Router>
       </div>
