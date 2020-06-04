@@ -1,34 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { API, TOKEN } from "../../helpers";
+import { API } from "../../helpers";
 import { Link } from "react-router-dom";
 import { getUser } from "../../redux/actions/authActions";
 import { getProfileUser } from "../../redux/actions/authActions";
 
 class LoginBtn extends Component {
   logout = () => {
-    // Ook bij logout doen we eigenlijk 3 dingen, namelijk het omgekeerde van de login.
-
-    // We verwijderen de token uit localstorage, zodanig dat een user niet opnieuw is ingelogd na een page refresh
+    // Remove token from localstorage
     window.localStorage.setItem("LOGIN_OAUTHTOKEN", undefined);
 
-    // We verwijderen de token uit onze API calls voor de huidige sessie.
+    // Remove token from API calls
     API.defaults.headers.common["Authorization"] = undefined;
 
-    // We verwijderen de user uit de state
+    // Remove user from state
     this.props.forgetUser();
   };
 
   render() {
     const { currentUser } = this.props;
 
-    if (TOKEN && !currentUser.first_name) {
-      this.props.getUser();
-    }
-
     if (currentUser.first_name) {
+      // Render when logged in
       return (
         <div>
+          {/* Saying hi to the user */}
           <span className="mr-2 text-success">
             Hi, <span>{currentUser.first_name}</span>
           </span>
@@ -44,6 +40,7 @@ class LoginBtn extends Component {
                 currentUser.last_name
               }
               src={
+                // Catch error with wrong url
                 currentUser.avatar.startsWith("http")
                   ? currentUser.avatar
                   : "../assets/img/user.png"
@@ -52,14 +49,18 @@ class LoginBtn extends Component {
               className="mr-2"
             ></img>
           </Link>
+
+          {/* Show logout button */}
           <button
             className="btn btn-outline-success my-2 my-sm-0"
             type="submit"
+            // Call logout function when clicked
             onClick={this.logout}
           >
             Logout
           </button>
 
+          {/* Custom button for new post  */}
           <div className="newPostDiv">
             <Link to="/newpost">
               <img
@@ -73,14 +74,18 @@ class LoginBtn extends Component {
         </div>
       );
     } else {
+      // Option when no user is found (thus no user is logged in)
       return (
         <div>
+          {/* Login button to go to login page */}
           <Link
             className="btn btn-outline-success my-2 my-sm-0 ml-2"
             to="/login"
           >
             Login
           </Link>
+
+          {/* Register button to go to register page */}
           <Link
             className="btn btn-outline-success my-2 my-sm-0 ml-2"
             to="/register"

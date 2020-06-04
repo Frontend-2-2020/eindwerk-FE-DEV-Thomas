@@ -3,6 +3,7 @@ import { Form, Field, ErrorMessage } from "formik";
 import { SwatchesPicker } from "react-color";
 
 class RegisterForm extends Component {
+  // Default state of component for Swatchespicker
   state = {
     color: "#00000",
   };
@@ -12,7 +13,7 @@ class RegisterForm extends Component {
 
     return (
       <Form>
-        <h2>Give us your data</h2>
+        <h2>Sign up</h2>
         <div className="row mt-4">
           <div className="col">
             <div className="form-group">

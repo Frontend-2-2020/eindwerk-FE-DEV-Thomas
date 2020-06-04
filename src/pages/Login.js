@@ -6,7 +6,9 @@ import { connect } from "react-redux";
 import { getUser } from "../redux/actions/authActions";
 
 class Login extends Component {
+  // Login function
   login = (values) => {
+    // Check values from Formik form in API
     API.post("oauth/token", {
       grant_type: "password",
       client_id: 2,
@@ -14,32 +16,32 @@ class Login extends Component {
       username: values.email,
       password: values.password,
     }).then((response) => {
-      // Als die call lukt doen we 3 dingen:
-
-      // met deze token. In API.js stellen we deze token onmiddellijk in bij het inladen van de pagina als deze beschikbaar is Token opslaan in localStorage
+      // If token received: save Token to localStorage
       window.localStorage.setItem(
         "LOGIN_OAUTHTOKEN",
         response.data.access_token
       );
 
-      // Om vanaf nu onze API requests te voorzien van een token moeten we dit als volgt instellen.
-      // Volgende refresh is dit niet meer nodig want dan doen we exact dit in de API.js
+      // Save token for future API requests.
       API.defaults.headers.common["Authorization"] =
         "Bearer " + response.data.access_token;
 
-      // Na het juist instellen van alles kunnen we gaan ophalen wie er is ingelogd om dit dan weer te geven op de pagina
+      // Get data of logged-in user from API
       this.props.getUser();
 
+      // Redirect to home (with most recently visited page)
       if (this.props.currentUser) {
-        this.props.history.push("/");
+        this.props.history.push("/" + this.props.currentPage);
       }
     });
   };
 
+  // Formik validation of email and password
   validate = (values) => {
     const errors = {};
     const requiredFields = ["email", "password"];
 
+    // Set error messages
     requiredFields.forEach((field) => {
       if (!values[field]) {
         errors[field] = "required";
@@ -60,6 +62,7 @@ class Login extends Component {
             password: "",
           }}
         >
+          {/* Render login form component */}
           <LoginForm />
         </Formik>
       </div>
@@ -67,12 +70,15 @@ class Login extends Component {
   }
 }
 
+// Get data from redux state
 const mapStateToProps = (store) => {
   return {
     currentUser: store.auth.currentUser,
+    currentPage: store.posts.currentPage,
   };
 };
 
+// Use redux actions
 const mapDispatchToProps = (dispatch) => {
   return {
     getUser: () => dispatch(getUser()),

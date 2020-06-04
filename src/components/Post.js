@@ -8,18 +8,24 @@ import { editPost } from "../redux/actions/postActions";
 import { deletePost } from "../redux/actions/postActions";
 
 class Post extends Component {
+  // State for toggling editor
   state = { editingPost: false };
 
+  // Passing along Formik form values
   submitHandler = (values) => {
     const newValues = {
       body: values.body,
       title: values.title,
       user: this.props.currentUser,
     };
+    // Call of redux action to post edited message to api
     this.props.editPost(this.props.post.id, newValues);
+
+    // Toggle editing back
     this.setState({ editingPost: false });
   };
 
+  // Validation of Formik post form
   validate = (values) => {
     const errors = {};
     const requiredFields = ["title", "body"];
@@ -35,9 +41,10 @@ class Post extends Component {
 
   render() {
     const { post } = this.props;
-    const { user } = this.props;
+    const { postUser } = this.props;
 
     if (this.state.editingPost === true) {
+      // Showing formik form with CKEditor when the state demands the people to edit!
       return (
         <Formik
           onSubmit={this.submitHandler}
@@ -47,16 +54,20 @@ class Post extends Component {
             body: post.body,
           }}
         >
+          {/* Passing on props to post form */}
           {(props) => <NewPostForm {...props} />}
         </Formik>
       );
     } else {
+      // Option to show if the state tells the people they may rest in peace and can lay down their editing work for now...
       return (
         <div className="postLi">
           <div
             className="postLi-timestamp"
+            // Styling conditioner... uh... I mean, conditional styling when user is the same as writer of the post.
             style={
-              user.id === this.props.currentUser.id
+              this.props.currentUser !== undefined &&
+              postUser.id === this.props.currentUser.id
                 ? {
                     backgroundColor: this.props.currentUser.favorite_color,
                   }
@@ -64,7 +75,9 @@ class Post extends Component {
             }
           >
             <p>{moment(post.created_at).format("LL")}</p>
-            {this.props.currentUser.id === user.id &&
+            {/* Show custom button to remove or edit post when the user is the same as the writer AND only on the PostDetail page */}
+            {this.props.currentUser !== undefined &&
+            this.props.currentUser.id === postUser.id &&
             window.location.pathname === "/post/" + post.id ? (
               <div>
                 <img
@@ -83,39 +96,50 @@ class Post extends Component {
                   style={{
                     width: "30px",
                   }}
-                  onClick={() =>
-                    this.props.deletePost(post.id, this.props.history)
-                  }
+                  onClick={() => this.props.deletePost(post.id)}
                 ></img>
               </div>
             ) : (
               <div></div>
             )}
           </div>
+
+          {/* Actual content of the post */}
           <div className="postLi-content">
-            <h4>{post.title}</h4>
-            <p dangerouslySetInnerHTML={{ __html: post.body }}></p>
+            <Link
+              to={"/post/" + post.id}
+              style={{ textDecoration: "inherit", color: "inherit" }}
+            >
+              <h4>{post.title}</h4>
+              {/* New coding heroes are born when one takes risks and fears no danger when rendering tags from api in html */}
+              <p dangerouslySetInnerHTML={{ __html: post.body }}></p>
+            </Link>
             <p style={{ textAlign: "right" }}>
               <span>says</span>{" "}
-              <Link style={{ fontWeight: "bold" }} to={"/profile/" + user.id}>
-                {user.first_name} {user.last_name}
+              <Link
+                style={{ fontWeight: "bold" }}
+                to={"/profile/" + postUser.id}
+              >
+                {postUser.first_name} {postUser.last_name}
               </Link>
               <img
                 alt={
                   "This is the avatar of " +
-                  user.first_name +
+                  postUser.first_name +
                   " " +
-                  user.last_name
+                  postUser.last_name
                 }
                 src={
-                  user.avatar.startsWith("http")
-                    ? user.avatar
+                  // Catching error when url is wrong
+                  postUser.avatar.startsWith("http")
+                    ? postUser.avatar
                     : "../assets/img/user.png"
                 }
                 style={{ width: "30px" }}
                 className="ml-2"
               ></img>
             </p>
+
             {post.comments_count !== undefined ? (
               <p className="postLi-comments">
                 <span>{post.comments_count} </span>
@@ -134,6 +158,8 @@ class Post extends Component {
 const mapStateToProps = (store) => {
   return {
     currentUser: store.auth.currentUser,
+    currentPage: store.posts.currentPage,
+    canRedirect: store.posts.canRedirect,
   };
 };
 
@@ -141,6 +167,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     editPost: (postId, values) => dispatch(editPost(postId, values)),
     deletePost: (id, history) => dispatch(deletePost(id, history)),
+    changeRedirectStatus: () => dispatch({ type: "CHANGE_REDIRECT_STATUS" }),
   };
 };
 

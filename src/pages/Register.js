@@ -5,8 +5,7 @@ import { API } from "../helpers";
 
 class Register extends Component {
   register = (values) => {
-    console.log(values);
-
+    // API call not necessary via redux action, only usefull on this page
     API.post("api/users", {
       first_name: values.first_name,
       last_name: values.last_name,
@@ -16,6 +15,7 @@ class Register extends Component {
       avatar: values.avatar + values.email,
     })
       .then((response) => {
+        // Redirect to loginpage
         this.props.history.push("/login");
       })
       .catch((error) => {
@@ -23,6 +23,7 @@ class Register extends Component {
       });
   };
 
+  // Formik validation
   validate = (values) => {
     const errors = {};
     const requiredFields = [
@@ -56,6 +57,7 @@ class Register extends Component {
             favorite_color: "",
           }}
         >
+          {/* Pass props to form */}
           {(props) => <RegisterForm {...props} />}
         </Formik>
       </div>

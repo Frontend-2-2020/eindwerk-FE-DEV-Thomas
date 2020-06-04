@@ -8,14 +8,16 @@ import { editComment } from "../redux/actions/postActions";
 import { deleteComment } from "../redux/actions/postActions";
 
 class Comment extends Component {
+  // State of component for hiding and showing form with CKEditor
   state = { editing: false };
 
+  // Submitting comment by calling redux action
   submitEditingComment = (values) => {
-    console.log("received values from Formik");
     this.props.editComment(values, this.props.comment.id, this.props.user);
     this.setState({ editing: false });
   };
 
+  // Validation of Formik form
   validate = (values) => {
     const errors = {};
     const requiredFields = ["body"];
@@ -34,6 +36,7 @@ class Comment extends Component {
     const { user } = this.props;
 
     if (this.state.editing === true) {
+      // Rendering Formik form if state says so
       return (
         <Formik
           onSubmit={this.submitEditingComment}
@@ -42,14 +45,17 @@ class Comment extends Component {
             body: comment.body,
           }}
         >
+          {/* Passing on props to form */}
           {(props) => <NewCommentForm {...props} />}
         </Formik>
       );
     } else {
+      // Option if comments is not being edited
       return (
         <li className="postLi comments">
           <div
             className="postLi-timestamp"
+            // Conditional styling based on favorite color of logged in user
             style={
               user.id === this.props.currentUser.id
                 ? {
@@ -59,35 +65,41 @@ class Comment extends Component {
             }
           >
             <p>{moment(comment.created_at).format("LL")}</p>
-            {this.props.currentUser.id === user.id &&
-            window.location.pathname ===
-              "/post/" + this.props.comment.blog_post_id ? (
-              <div>
-                <img
-                  className="clickable"
-                  alt="Edit icon"
-                  src="../assets/img/063-pencil.svg"
-                  style={{
-                    width: "30px",
-                  }}
-                  onClick={() => this.setState({ editing: true })}
-                ></img>
-                <img
-                  className="clickable ml-2"
-                  alt="Edit icon"
-                  src="../assets/img/089-trash.svg"
-                  style={{
-                    width: "30px",
-                  }}
-                  onClick={() =>
-                    this.props.deleteComment(this.props.comment.id)
-                  }
-                ></img>
-              </div>
-            ) : (
-              <div></div>
-            )}
+            {
+              // Show or hide clickable icon to either edit or remove comment WHEN logged in user is writer
+              this.props.currentUser.id === user.id &&
+              window.location.pathname ===
+                "/post/" + this.props.comment.blog_post_id ? (
+                <div>
+                  <img
+                    className="clickable"
+                    alt="Edit icon"
+                    src="../assets/img/063-pencil.svg"
+                    style={{
+                      width: "30px",
+                    }}
+                    onClick={() => this.setState({ editing: true })}
+                  ></img>
+                  <img
+                    className="clickable ml-2"
+                    alt="Edit icon"
+                    src="../assets/img/089-trash.svg"
+                    style={{
+                      width: "30px",
+                    }}
+                    // Call delete action from redux
+                    onClick={() =>
+                      this.props.deleteComment(this.props.comment.id)
+                    }
+                  ></img>
+                </div>
+              ) : (
+                // Option when logged in user is not writer
+                <div></div>
+              )
+            }
           </div>
+          {/* Rendering content of comment from redux state */}
           <div className="postLi-content">
             <p dangerouslySetInnerHTML={{ __html: comment.body }}></p>
             <p style={{ textAlign: "right" }}>
@@ -103,6 +115,7 @@ class Comment extends Component {
                   user.last_name
                 }
                 src={
+                  // Catch error when url is wrong
                   user.avatar.startsWith("http")
                     ? user.avatar
                     : "../assets/img/user.png"

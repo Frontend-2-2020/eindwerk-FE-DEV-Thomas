@@ -1,23 +1,16 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
 import { connect } from "react-redux";
-import { API } from "../helpers";
 import NewPostForm from "../components/forms/NewPostForm";
-import PropTypes from "prop-types";
+import { addPost, getPosts, updatePage } from "../redux/actions/postActions";
 
 class NewPost extends Component {
+  // Handling Formik submit of New Post form
   submitHandler = (values) => {
-    console.log(values);
-    console.log(this.props.currentUser);
-    API.post("api/posts", {
-      body: values.body,
-      title: values.title,
-      user: this.currentUser,
-    }).then((response) => {
-      this.props.history.push("/");
-    });
+    this.props.addPost(values, this.props.currentUser);
   };
 
+  // Validation of Formik form
   validate = (values) => {
     const errors = {};
     const requiredFields = ["title", "body"];
@@ -32,7 +25,11 @@ class NewPost extends Component {
   };
 
   render() {
-    console.log(this.props.user);
+    // Handle redirect
+    if (this.props.canRedirect === true) {
+      this.props.history.push("/1");
+    }
+
     return (
       <div className="container mt-4" style={{ maxWidth: "900px" }}>
         {" "}
@@ -45,6 +42,7 @@ class NewPost extends Component {
             body: "",
           }}
         >
+          {/* Pass props to formik form */}
           {(props) => <NewPostForm {...props} />}
         </Formik>
       </div>
@@ -55,9 +53,18 @@ class NewPost extends Component {
 const mapStateToProps = (store) => {
   return {
     currentUser: store.auth.currentUser,
+    currentPage: store.posts.currentPage,
+    canRedirect: store.posts.canRedirect,
   };
 };
 
-NewPost.propTypes = {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPosts: (page) => dispatch(getPosts(page)),
+    addPost: (values, user) => dispatch(addPost(values, user)),
+    updatePage: (newPage) => dispatch(updatePage(newPage)),
+    changeRedirectStatus: () => dispatch({ type: "CHANGE_REDIRECT_STATUS" }),
+  };
+};
 
-export default connect(mapStateToProps)(NewPost);
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost);

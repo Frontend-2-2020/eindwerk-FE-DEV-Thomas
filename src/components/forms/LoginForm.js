@@ -15,6 +15,7 @@ class LoginForm extends Component {
                 name="email"
                 className="form-control"
                 id="email"
+                autoComplete="current-password"
                 placeholder="name@example.com"
               />
               <ErrorMessage name="email" />

@@ -1,7 +1,7 @@
 const initialState = {
   posts: [],
   postDetail: {},
-  deleteStatus: "updated",
+  canRedirect: null,
   currentPage: 1,
 };
 
@@ -10,12 +10,16 @@ function postReducer(store = initialState, action) {
     case "GET_POSTS":
       return {
         ...store,
+
+        // Replace only one section of state with payload from action
         posts: action.payload.data,
       };
 
     case "UPDATE_PAGE":
       return {
         ...store,
+
+        // Replace two sections of state with payload from action
         currentPage: action.payload.current_page,
         posts: action.payload.data,
       };
@@ -24,9 +28,18 @@ function postReducer(store = initialState, action) {
         ...store,
         postDetail: action.payload,
       };
+    case "ADD_POST":
+      return {
+        ...store,
+        posts: [...store.posts, action.payload],
+        currentPage: 1,
+        canRedirect: true,
+      };
     case "EDIT_POST":
       return {
         ...store,
+
+        // Replace one section of state by a new array after being mapped and the one changed post has been replaced in the original array
         posts: store.posts.map((post) =>
           post.id === action.payload.id ? action.payload : post
         ),
@@ -36,7 +49,10 @@ function postReducer(store = initialState, action) {
     case "DELETE_POST":
       return {
         ...store,
+
+        // Replace section of state by a new array after a particular post has been filtered out
         posts: store.posts.filter((post) => post.id !== action.payload.id),
+        canRedirect: true,
       };
     case "ADD_COMMENT":
       return {
@@ -56,6 +72,11 @@ function postReducer(store = initialState, action) {
             comment.id === action.payload.id ? action.payload : comment
           ),
         },
+      };
+    case "CHANGE_REDIRECT_STATUS":
+      return {
+        ...store,
+        canRedirect: store.canRedirect === true ? false : true,
       };
     case "DELETE_COMMENT":
       return {
