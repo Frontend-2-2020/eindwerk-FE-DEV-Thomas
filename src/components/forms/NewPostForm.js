@@ -3,6 +3,7 @@ import { Form, Field, ErrorMessage } from "formik";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import CustomErrorMessage from "../CustomErrorMessage";
+import PropTypes from "prop-types";
 
 class NewPostForm extends Component {
   render() {
@@ -54,5 +55,10 @@ class NewPostForm extends Component {
     );
   }
 }
+
+NewPostForm.propTypes = {
+  values: PropTypes.object.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+};
 
 export default NewPostForm;

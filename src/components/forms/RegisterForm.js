@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Field, ErrorMessage } from "formik";
 import { SwatchesPicker } from "react-color";
+import PropTypes from "prop-types";
 
 class RegisterForm extends Component {
   // Default state of component for Swatchespicker
@@ -104,5 +105,10 @@ class RegisterForm extends Component {
     );
   }
 }
+
+RegisterForm.propTypes = {
+  values: PropTypes.object.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+};
 
 export default RegisterForm;
